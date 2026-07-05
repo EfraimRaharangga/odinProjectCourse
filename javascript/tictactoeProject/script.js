@@ -4,12 +4,14 @@ function Game(parent, status, startModal, player1, player2) {
   let statusDis = document.querySelector(status)
   let startElement = document.querySelector(startModal)
   let player1Score = document.querySelector('#p1-score')
+  let player1DispSym = document.querySelector('#p1-dis-sym')
+  let player2DispSym = document.querySelector('#p2-dis-sym')
   let player2Score = document.querySelector('#p2-score')
-  const playerO = player(player1, 'O');
-  const playerX = player(player2, 'X');
-  let giliran = playerO
+  const playerOne = player(player1, 'O');
+  const playerTwo = player(player2, 'X');
+  let giliran = 'O'
   let gameState = 'berjalan'
-  reset()
+  reset(true)
   startElement.classList.toggle('hidden')
 
   function makeArrayEmpty() {
@@ -28,6 +30,9 @@ function Game(parent, status, startModal, player1, player2) {
     function getSym() {
       return symbolPlayer
     }
+    function toggleSym() {
+      symbolPlayer = symbolPlayer == 'X' ? 'O' : 'X'
+    }
     function addPoint() {
       point++
     }
@@ -38,7 +43,7 @@ function Game(parent, status, startModal, player1, player2) {
       point = 0
     }
 
-    return { getName, getSym, addPoint, resetPoint, getPoint }
+    return { getName, getSym, addPoint, resetPoint, getPoint, toggleSym }
   }
 
   function render(status) {
@@ -54,31 +59,38 @@ function Game(parent, status, startModal, player1, player2) {
       return reset()
     }
     if (column[col] == 'kosong') {
-      column[col] = giliran.getSym()
+      column[col] = giliran
       render(checkWinOrDraw())
     }
   }
 
-  function reset() {
+  function reset(state) {
     gameState = 'berjalan'
-    giliran = playerO
+    if (!state) {
+      giliran = 'O';
+      playerOne.toggleSym()
+      playerTwo.toggleSym()
+    }
     makeArrayEmpty()
+    player1DispSym.innerText = `(${playerOne.getSym()}):`
+    player2DispSym.innerText = `(${playerTwo.getSym()}):`
     render('Mulai Game')
     return column
   }
 
   function checkWinOrDraw() {
-    let getName = giliran.getName()
-    const getSym = giliran.getSym()
+    let getName
     checkWinPattern()
     checkDrawPattern()
     if (gameState == 'menang') {
-      if (giliran == playerO) {
-        playerO.addPoint()
-        player1Score.innerHTML = playerO.getPoint()
+      if (giliran == playerOne.getSym()) {
+        playerOne.addPoint()
+        getName = playerOne.getName()
+        player1Score.innerHTML = playerOne.getPoint()
       } else {
-        playerX.addPoint()
-        player2Score.innerHTML = playerX.getPoint()
+        getName = playerTwo.getName()
+        playerTwo.addPoint()
+        player2Score.innerHTML = playerTwo.getPoint()
       }
 
       return `${getName} menang`
@@ -87,8 +99,8 @@ function Game(parent, status, startModal, player1, player2) {
       return `game draw`
     }
     else {
-      giliran = getSym == 'O' ? playerX : playerO
-      getName = giliran.getName()
+      giliran = giliran == 'O' ? 'X' : 'O'
+      getName = giliran == playerOne.getSym() ? playerOne.getName() : playerTwo.getName()
       return `giliran ${getName} bermain`
     }
   }
@@ -99,13 +111,12 @@ function Game(parent, status, startModal, player1, player2) {
   }
 
   function checkWinPattern() {
-    let getSymbol = giliran.getSym()
     polaMenang = [[0, 1, 2], [1, 4, 7],
     [3, 4, 5], [2, 5, 8],
     [6, 7, 8], [0, 3, 6],
     [0, 4, 8], [2, 4, 6]]
     polaMenang.forEach((idx) => {
-      let cek = idx.every((id) => (column[id] == getSymbol && column[id] !== 'kosong'))
+      let cek = idx.every((id) => (column[id] == giliran && column[id] !== 'kosong'))
       if (cek) gameState = 'menang'
     })
   }
