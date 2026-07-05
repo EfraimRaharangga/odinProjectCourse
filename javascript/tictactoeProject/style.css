@@ -1,0 +1,49 @@
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    /* Pastikan tinggi penuh satu layar */
+    display: flex;
+    justify-content: center;
+    /* Memusatkan secara horizontal */
+    align-items: center;
+    /* Memusatkan secara vertikal */
+    background-color: #ffffff;
+    /* Bisa disesuaikan dengan tema kamu */
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Memastikan isi di dalam container juga ikut di tengah */
+    gap: 20px;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    /* Membuat 3 kolom, masing-masing 100px */
+    grid-template-rows: repeat(3, 100px);
+    /* Membuat 3 baris, masing-masing 100px */
+    gap: 5px;
+    /* Jarak antar kotak */
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    border: 2px solid #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    cursor: pointer;
+    background-color: #f4f4f4;
+}
+
+.cell:hover {
+    background-color: #e0e0e0;
+    /* Efek saat kursor di atas kotak */
+}
