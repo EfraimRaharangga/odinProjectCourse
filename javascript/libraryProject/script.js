@@ -1,40 +1,49 @@
 const myLibrary = [
-    {
-        id: crypto.randomUUID(),
-        author: "George Orwell",
-        title: "1984",
-        pages: 328,
-        isRead: true
-    },
-    {
-        id: crypto.randomUUID(),
-        author: "J.K. Rowling",
-        title: "Harry Potter and the Sorcerer's Stone",
-        pages: 400,
-        isRead: false
-    },
-    {
-        id: crypto.randomUUID(),
-        author: "J.R.R. Tolkien",
-        title: "The Hobbit",
-        pages: 310,
-        isRead: true
-    },
-    {
-        id: crypto.randomUUID(),
-        author: "F. Scott Fitzgerald",
-        title: "The Great Gatsby",
-        pages: 218,
-        isRead: false
-    }
 ];
 
-function Book(author, title, pages, isRead, id) {
-    this.id = crypto.randomUUID();
-    this.author = author;
-    this.title = title;
-    this.pages = pages;
-    this.isRead = isRead;
+class Book {
+    constructor(author, title, pages, isRead) {
+        this._author = author
+        this._title = title
+        this._pages = pages
+        this._isRead = isRead
+        this._id = crypto.randomUUID()
+    }
+
+    // getter
+    get id() { return this._id }
+
+    get title() { return this._title }
+
+    get pages() { return this._pages }
+
+    get isRead() { return this._isRead }
+
+    get author() { return this._author }
+
+    // setter
+    set author(name) { this._author = name }
+
+    set pages(pages) {
+        if (typeof pages !== 'number') {
+            throw new Error('pake nomor cuy')
+        } else {
+            this._pages = pages
+        }
+    }
+
+    set title(name) {
+        this._title = name
+    }
+
+    set isRead(state) {
+        if (typeof state !== 'boolean') {
+            throw new Error('true false cuyy')
+        } else {
+            this._isRead = state
+        }
+    }
+
 }
 
 function addBookToLibrary(author, title, pages, isRead) {
@@ -61,10 +70,7 @@ function deleteBook(id) {
 
 function toggleRead(id) {
     const book = myLibrary.find((book) => book.id === id);
-    if (book) {
-        book.isRead = !book.isRead;
-        displayBooks();
-    }
+    book && (book.isRead = !book.isRead, displayBooks())
 }
 
 function displayBooks() {
@@ -147,26 +153,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     deleteModal.addEventListener('click', (e) => {
-        const dialogDimensions = deleteModal.getBoundingClientRect();
-        if (
-            e.clientX < dialogDimensions.left ||
-            e.clientX > dialogDimensions.right ||
-            e.clientY < dialogDimensions.top ||
-            e.clientY > dialogDimensions.bottom
-        ) {
+        if (e.target === deleteModal) {
             closeDeleteModal();
         }
     });
 
     // Close modal when clicking outside of it
     modal.addEventListener('click', (e) => {
-        const dialogDimensions = modal.getBoundingClientRect();
-        if (
-            e.clientX < dialogDimensions.left ||
-            e.clientX > dialogDimensions.right ||
-            e.clientY < dialogDimensions.top ||
-            e.clientY > dialogDimensions.bottom
-        ) {
+        if (e.target === modal) {
             modal.close();
             form.reset();
         }
@@ -179,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Get values from the form
         const title = document.getElementById('title').value;
         const author = document.getElementById('author').value;
-        const pages = document.getElementById('pages').value;
+        const pages = Number(document.getElementById('pages').value);
         const isRead = document.getElementById('isRead').checked;
 
         // Add to library
