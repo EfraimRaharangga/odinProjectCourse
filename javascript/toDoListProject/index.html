@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="url(#grad1)" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
+                <defs>
+                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#8b5cf6" />
+                        <stop offset="100%" stop-color="#3b82f6" />
+                    </linearGradient>
+                </defs>
+                <h2>To Do List</h2>
+            </div>
+            <nav>
+                <div class="all-tasks" id="allTasksNav">
+                    <span class="label-name">All Tasks</span>
+                    <span class="task-count" id="allTaskCount">0</span>
+                </div>
+                <div class="labels">
+                    <h3>Label</h3>
+                    <ul id="label-list">
+                        <!-- Labels will be injected here -->
+                    </ul>
+                    <button id="addNewLabel" class="btn-text">+ New Label</button>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <h1>Inbox</h1>
+                <button type="button" id="addTask" class="btn-primary">
+                    <span>+</span> Add Task
+                </button>
+            </header>
+
+            <div class="container-card" id="taskContainer">
+                <!-- Task cards will be injected here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Label Modal overlay -->
+    <div class="modal-overlay" id="labelModalOverlay">
+        <div class="add-task-mdal" id="labelModal">
+            <div class="modal-header">
+                <h2>Create New Label</h2>
+                <button id="closeLabelModal" class="btn-icon">&times;</button>
+            </div>
+            <form id="labelForm">
+                <div class="form-group">
+                    <label for="labelName">Label Name</label>
+                    <input type="text" name="labelName" placeholder="e.g. Work, Personal" id="labelName" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="cancelLabelBtn" class="btn-secondary">Cancel</button>
+                    <button type="submit" class="btn-primary">Add Label</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Task Modal overlay -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="add-task-mdal" id="taskModal">
+            <div class="modal-header">
+                <h2>Create New Task</h2>
+                <button id="closeModal" class="btn-icon">&times;</button>
+            </div>
+            <form id="taskForm">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" name="title" placeholder="What needs to be done?" id="title" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="date">Due Date</label>
+                        <input type="date" name="date" id="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="taskLabelSelect">Label</label>
+                        <select name="taskLabelSelect" id="taskLabelSelect" required>
+                            <!-- Options injected via JS -->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="desc">Description</label>
+                    <textarea name="desc" id="desc" placeholder="Add some details..." rows="3"></textarea>
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <label for="done">Mark as Done?</label>
+                    <input type="checkbox" name="done" id="done">
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" id="cancelBtn" class="btn-secondary">Cancel</button>
+                    <button type="submit" class="btn-primary">Add Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="javascipt/script.js"></script>
+</body>
+
+</html>
